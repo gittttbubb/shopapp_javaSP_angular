@@ -1,0 +1,37 @@
+.logo-header{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.navbar {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.navbar .container {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.navbar .container .navbar-brand {
+    color: rgb(173, 178, 203);
+}
+
+.navbar .container .navbar-nav .nav-link {
+    color: rgb(252, 253, 254);
+    padding: 8px 16px;
+}
+
+.navbar .container .navbar-nav .nav-item.active {
+    background-color: rgb(127, 68, 255) !important;
+    color: white !important;
+    border-radius: 18px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item i {
+    margin-right: -12px;
+    color: rgb(206, 199, 199);
+}
