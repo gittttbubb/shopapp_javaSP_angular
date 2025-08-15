@@ -13,17 +13,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fullname", length = 350)
+    @Column(name = "fullname", length = 100)
     private String fullName;
 
     @Column(name = "phone_number", length = 10, nullable = false)
@@ -52,13 +52,13 @@ public class User extends BaseEntity implements UserDetails {
     private com.project.shopapp.models.Role role;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {    //trả về danh sách quyền của người dùng
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("ROLE_" + getRole().getName().toUpperCase()));
+        authorityList.add(new SimpleGrantedAuthority("ROLE_"+getRole().getName().toUpperCase()));
         //authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
         return authorityList;
     }
-
     @Override
     public String getUsername() {
         return phoneNumber;

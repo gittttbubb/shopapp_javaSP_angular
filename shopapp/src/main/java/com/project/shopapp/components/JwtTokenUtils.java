@@ -1,6 +1,8 @@
 package com.project.shopapp.components;
 
 import com.project.shopapp.exceptions.InvalidParamException;
+import com.project.shopapp.models.Token;
+import com.project.shopapp.repositories.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,81 +10,83 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.security.SecureRandom;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenUtils {
     @Value("${jwt.expiration}")
-    private int expiration; //lưu vào environment variable
-
+    private int expiration; //save to an environment variable
     @Value("${jwt.secretKey}")
-    private String secretKey;
 
+    private String secretKey;
+    private final TokenRepository tokenRepository;
     public String generateToken(com.project.shopapp.models.User user) throws Exception{
-        //properties =>
+        //properties => claims
         Map<String, Object> claims = new HashMap<>();
         //this.generateSecretKey();
         claims.put("phoneNumber", user.getPhoneNumber());
-        try{
+        claims.put("userId", user.getId());
+        try {
             String token = Jwts.builder()
-                    .setClaims(claims)
+                    .setClaims(claims) //how to extract claims from this ?
                     .setSubject(user.getPhoneNumber())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
-                    .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                    .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
             return token;
-        } catch (Exception e) {
-            //có thể dùng Logger thay vì System.out.println
-            throw new InvalidParamException("Cannot create jwt token, error" + e.getMessage());
+        }catch (Exception e) {
+            //you can "inject" Logger, instead System.out.println
+            throw new InvalidParamException("Cannot create jwt token, error: "+e.getMessage());
             //return null;
         }
     }
-    private Key getSignKey(){
+    private Key getSignInKey() {
         byte[] bytes = Decoders.BASE64.decode(secretKey);
-        //Keys.hmacShaKeyFor(Decoders.BASE64.decode("1FQbKe8PtU6rh2XTHS7l5qeUMFVElyOhuhYW5J+ZWig="))
+        //Keys.hmacShaKeyFor(Decoders.BASE64.decode("TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI="));
         return Keys.hmacShaKeyFor(bytes);
     }
-
-    private String generateSecretKey(){
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] ketBytes = new byte[32]; //256-bit key
-        secureRandom.nextBytes(ketBytes);
-        String secretKey = Encoders.BASE64.encode(ketBytes);
+    private String generateSecretKey() {
+        SecureRandom random = new SecureRandom();
+        byte[] keyBytes = new byte[32]; // 256-bit key
+        random.nextBytes(keyBytes);
+        String secretKey = Encoders.BASE64.encode(keyBytes);
         return secretKey;
     }
-
-    private Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSignKey()) //truyền key để sinh ra claims
+                .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-    public  <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = this.extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
     //check expiration
-    public boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token) {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }
-    public String extractPhoneNumber(String token){
+    public String extractPhoneNumber(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
-    public boolean validateToken(String token, UserDetails userDetails){     //ktra username và token còn hạn ko
+    public boolean validateToken(String token, UserDetails userDetails) {
         String phoneNumber = extractPhoneNumber(token);
-        return (phoneNumber.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        Token existingToken = tokenRepository.findByToken(token);
+        if(existingToken == null || existingToken.isRevoked() == true) {
+            return false;
+        }
+        return (phoneNumber.equals(userDetails.getUsername()))
+                && !isTokenExpired(token);
     }
 }

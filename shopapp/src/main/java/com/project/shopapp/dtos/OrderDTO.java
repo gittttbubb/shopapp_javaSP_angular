@@ -20,7 +20,7 @@ import java.util.List;
 public class OrderDTO {
 
     @JsonProperty("user_id")
-    @Min(value = 1, message = "User's Id must be > 0")
+    @Min(value = 1, message = "User's ID must be > 0")
     private Long userId;
 
     @JsonProperty("fullname")
@@ -33,6 +33,9 @@ public class OrderDTO {
     @Size(min = 5, message = "Phone number must be at least 5 characters")
     private String phoneNumber;
 
+    @JsonProperty("status")
+    private String status;
+
     private String address;
 
     private String note;
@@ -40,7 +43,7 @@ public class OrderDTO {
     @JsonProperty("total_money")
     @Min(value = 0, message = "Total money must be >= 0")
     private Float totalMoney;
-    
+
     @JsonProperty("shipping_method")
     private String shippingMethod;
 
@@ -55,4 +58,5 @@ public class OrderDTO {
 
     @JsonProperty("cart_items")
     private List<CartItemDTO> cartItems;
+
 }

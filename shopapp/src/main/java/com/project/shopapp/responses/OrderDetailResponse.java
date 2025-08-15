@@ -2,7 +2,6 @@ package com.project.shopapp.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.shopapp.models.OrderDetail;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Getter
@@ -16,7 +15,6 @@ public class OrderDetailResponse {
     @JsonProperty("order_id")
     private Long orderId;
 
-    @ManyToOne
     @JsonProperty("product_id")
     private Long productId;
 
@@ -31,8 +29,9 @@ public class OrderDetailResponse {
 
     private String color;
 
-    public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail){
-        return OrderDetailResponse.builder()
+    public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail) {
+        return OrderDetailResponse
+                .builder()
                 .id(orderDetail.getId())
                 .orderId(orderDetail.getOrder().getId())
                 .productId(orderDetail.getProduct().getId())

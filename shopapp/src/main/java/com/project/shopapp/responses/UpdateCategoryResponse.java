@@ -2,7 +2,6 @@ package com.project.shopapp.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -11,7 +10,4 @@ import lombok.*;
 public class UpdateCategoryResponse {
     @JsonProperty("message")
     private String message;
-
-    @JsonProperty("token")
-    private String token;
 }

@@ -7,11 +7,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "product_images")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+
 public class ProductImage {
     public static final int MAXIMUM_IMAGES_PER_PRODUCT = 6;
     @Id

@@ -3,6 +3,10 @@ package com.project.shopapp.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -19,6 +23,9 @@ public class ProductResponse extends BaseResponse{
     private Float price;
     private String thumbnail;
     private String description;
+    // Thêm trường totalPages
+    private int totalPages;
+
     @JsonProperty("product_images")
     private List<ProductImage> productImages = new ArrayList<>();
 

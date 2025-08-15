@@ -14,7 +14,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class UserDTO {
-
     @JsonProperty("fullname")
     private String fullName;
 
