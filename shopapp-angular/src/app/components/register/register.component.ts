@@ -117,5 +117,10 @@ export class RegisterComponent {
       }
     }
   }
+    loginAccount() {
+    debugger
+    // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
+    this.router.navigate(['/login']); 
+  }
 }
 

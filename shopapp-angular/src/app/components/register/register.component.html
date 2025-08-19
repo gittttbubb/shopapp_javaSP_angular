@@ -1,4 +1,4 @@
-<!-- <app-header></app-header> -->
+<app-header></app-header>
 <div class="container">
     <form #registerForm="ngForm">
     <div class="row">
@@ -15,9 +15,10 @@
                         (focus)="registerForm.form.markAsTouched()"
                         required id="phoneNumber">
                     <div class="divider-nospace"></div>
-                    <p class="text-danger" 
-                        *ngIf="phoneNumber.length < 6 
-                        && registerForm.form.touched">Phone phải có ít nhất 6 ký tự</p>
+                    @if(phoneNumber.length < 6 && registerForm.form.touched) {
+                        <p class="text-danger">Phone phải có ít nhất 6 ký tự</p>
+                    }
+                    
                 </div>
                 <div class="mt-3"></div>
                 <div class="form-group password-field">
@@ -31,10 +32,11 @@
                         'fa-eye' : 'fa-eye-slash'" (click)="togglePassword()">
                         </i>
                     <div class="divider-nospace"></div>
-                    <p class="text-danger" 
-                        *ngIf="password.length < 3 && registerForm.form.touched">
-                        Mật khẩu phải có ít nhất 3 ký tự
-                    </p>
+                    @if(password.length < 3 && registerForm.form.touched) {
+                        <p class="text-danger">
+                            Mật khẩu phải có ít nhất 3 ký tự
+                        </p>
+                    }                    
                 </div>
                 <div class="mt-3"></div>
                 <div class="form-group password-field">
@@ -50,15 +52,18 @@
                         'fa-eye' : 'fa-eye-slash'" (click)="togglePassword()">
                         </i>
                     <div class="divider-nospace"></div>
-                    <p class="text-danger" 
-                        *ngIf="retypePassword.length < 3 && registerForm.form.touched">
-                        Mật khẩu phải có ít nhất 3 ký tự
+                    @if(retypePassword.length < 3 && registerForm.form.touched) {
+                        <p class="text-danger">
+                            Mật khẩu phải có ít nhất 3 ký tự
+                        </p>
+                    }              
+                    @if(registerForm.controls['retypePassword'].hasError('passwordMismatch')
+                        && registerForm.form.touched) {
+                    <p class="text-danger">
+                        Mật khẩu không khớp
                     </p>
-                    <p class="text-danger" 
-                    *ngIf="registerForm.controls['retypePassword']?.hasError('passwordMismatch') 
-                            && registerForm.form.touched">
-                    Mật khẩu không khớp
-                    </p>
+                    }
+                    
                 </div>
                 <div class="mt-3"></div>
                 <div class="form-group">
@@ -82,11 +87,12 @@
                             (input)="registerForm.form.markAsTouched(); checkAge()">
                             
                     <div class="divider-nospace"></div>
-                    <p class="text-danger" 
-                    *ngIf="registerForm.controls['dateOfBirth']?.hasError('invalidAge') 
-                            && registerForm.form.touched">
-                        Bạn chưa đủ 18 tuổi
-                    </p>
+                    @if(registerForm.controls['dateOfBirth'].hasError('invalidAge') 
+                        && registerForm.form.touched){
+                        <p class="text-danger" >
+                            Bạn chưa đủ 18 tuổi
+                        </p>
+                    }                    
                   </div>
                   
                 <div class="mt-3"></div>
@@ -116,7 +122,7 @@
                     class="register-button">Đăng ký</button>
                 <div class="divider"></div>
                 <p class="text-center">Bạn đã có tài khoản? <span>
-                    <a href="#" class="register-link">Đăng nhập</a></span></p>
+                    <a (click)="loginAccount()" class="register-link">Đăng nhập</a></span></p>
             </div>
         </div>
     </div>

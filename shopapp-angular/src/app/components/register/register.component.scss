@@ -1,8 +1,7 @@
 @import '../../styles/shared-styles.scss';
 
 .container {
-    color: white;
-    height: 100vh;    
+    color: white;    
 }
 
 .register-form {
@@ -76,6 +75,7 @@
 .register-link {
     color: $shopapp-title-color;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .register-button {

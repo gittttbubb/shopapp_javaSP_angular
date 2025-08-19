@@ -27,55 +27,62 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Use Angular's *ngFor directive to loop through products array -->
-        <tr *ngFor="let product of products">
-          <td>{{ product.id }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.price }}</td>
-          <td>
-            <img src="{{ product.url }}" 
-              class="rounded-square" alt="Thumbnail"
-              width="100" height="100">
-          </td>
-          <td>{{ product.description }}</td>
-          <td>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn btn-primary" 
-                  (click)="updateProduct(product.id)">
-                Update
-              </button>
-              <button class="btn btn-danger" 
-                (click)="deleteProduct(product)">Delete
-              </button>            
-              </div>
-          </td>          
-        </tr>
+        @for(product of products; track product.id) {
+          <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+              <img src="{{ product.url }}" 
+                class="rounded-square" alt="Thumbnail"
+                width="100" height="100">
+            </td>
+            <td>{{ product.description }}</td>
+            <td>
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" 
+                    (click)="updateProduct(product.id)">
+                  Update
+                </button>
+                <button class="btn btn-danger" 
+                  (click)="deleteProduct(product)">Delete
+                </button>            
+                </div>
+            </td>          
+          </tr>
+        }        
       </tbody>
     </table>
     <div class="d-flex justify-content-center">
       <nav aria-label="Page navigation">
         <ul class="pagination">
-          <li class="page-item" *ngIf="currentPage > 0">
-            <a class="page-link" (click)="onPageChange(0)">First</a>
-          </li>
-          <li class="page-item" *ngIf="currentPage > 0">
-            <a class="page-link" (click)="onPageChange(currentPage - 1)">
-              <i class="fa fa-chevron-left"></i>
-            </a>
-          </li>
-          <ng-container *ngFor="let page of visiblePages">
+          @if(currentPage > 0) {
+            <li class="page-item">
+              <a class="page-link" (click)="onPageChange(0)">First</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" (click)="onPageChange(currentPage - 1)">
+                <i class="fa fa-chevron-left"></i>
+              </a>
+            </li>
+          }          
+          @for(page of visiblePages; track page) {
+            <ng-container>
               <li class="page-item" [ngClass]="{'active': page === currentPage + 1}">
                 <a class="page-link" (click)="onPageChange(page - 1)">{{ page }}</a>
               </li>
             </ng-container>
-          <li class="page-item" *ngIf="currentPage < totalPages - 1">
-            <a class="page-link" (click)="onPageChange(currentPage + 1)">
-              <i class="fa fa-chevron-right"></i>
-            </a>
-          </li>
-          <li class="page-item" *ngIf="currentPage < totalPages - 1">
-            <a class="page-link" (click)="onPageChange(totalPages - 1)">Last</a>
-          </li>
+          }          
+          @if(currentPage < totalPages - 1)   {
+            <li class="page-item">
+              <a class="page-link" (click)="onPageChange(currentPage + 1)">
+                <i class="fa fa-chevron-right"></i>
+              </a>
+            </li>
+            <li class="page-item" >
+              <a class="page-link" (click)="onPageChange(totalPages - 1)">Last</a>
+            </li>
+          }          
         </ul>
       </nav>
     </div>

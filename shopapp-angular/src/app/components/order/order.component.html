@@ -15,11 +15,12 @@
                         class="form-control" 
                         id="fullname" 
                         [class.is-invalid]="orderForm.get('fullname')!.invalid && orderForm.get('fullname')!.touched">
-                    <div 
-                        *ngIf="orderForm.get('fullname')!.invalid && orderForm.get('fullname')!.touched" 
-                        class="invalid-feedback">
-                        Họ và tên là trường bắt buộc.
-                    </div>
+                    @if(orderForm.get('fullname')!.invalid &&
+                        orderForm.get('fullname')!.touched) {
+                        <div class="invalid-feedback">
+                            Họ và tên là trường bắt buộc.
+                        </div>
+                    }                        
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -28,10 +29,14 @@
                         class="form-control" 
                         id="email" 
                         [class.is-invalid]="orderForm.get('email')!.invalid && orderForm.get('email')!.touched">
-                    <div *ngIf="orderForm.get('email')!.invalid && orderForm.get('email')!.touched" 
-                        class="invalid-feedback">
-                        {{ orderForm.get('email')!.hasError('email') ? 'Email không hợp lệ' : 'Email là trường bắt buộc' }}
-                    </div>
+                    @if(orderForm.get('email')!.invalid 
+                        && orderForm.get('email')!.touched) {
+                            <div
+                                class="invalid-feedback">
+                                {{ orderForm.get('email')!.hasError('email') ? 'Email không hợp lệ' : 'Email là trường bắt buộc' }}
+                            </div>
+                        }
+                    
                 </div>
                 
                 <div class="mb-3">
@@ -43,9 +48,12 @@
                         required
                         id="phone" 
                         [class.is-invalid]="orderForm.get('phone_number')!.invalid && orderForm.get('phone_number')!.touched">
-                        <div *ngIf="orderForm.get('phone_number')!.invalid && orderForm.get('phone_number')!.touched" class="invalid-feedback">
-                        Số điện thoại là trường bắt buộc và ít nhất 6 ký tự.
-                    </div>
+                        @if(orderForm.get('phone_number')!.invalid 
+                            && orderForm.get('phone_number')!.touched) {
+                            <div class="invalid-feedback">
+                                Số điện thoại là trường bắt buộc và ít nhất 6 ký tự.
+                            </div>
+                        }                        
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Địa chỉ</label>
@@ -56,9 +64,13 @@
                         required
                         id="address" 
                         [class.is-invalid]="orderForm.get('address')!.invalid && orderForm.get('address')!.touched">
-                    <div *ngIf="orderForm.get('address')!.invalid && orderForm.get('address')!.touched" class="invalid-feedback">
+                    @if(orderForm.get('address')!.invalid 
+                        && orderForm.get('address')!.touched) {
+                    <div class="invalid-feedback">
                         Địa chỉ là trường bắt buộc và ít nhất 5 ký tự.
                     </div>
+                    }
+                    
                 </div>
                 <div class="mb-3">
                     <label for="note" class="form-label">Ghi chú</label>

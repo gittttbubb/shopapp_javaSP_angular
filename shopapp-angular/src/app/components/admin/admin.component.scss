@@ -4,17 +4,16 @@
     padding-right: 0 !important; /* Remove right padding */
 }
 .header {
-    background-color: #333;
-    /* Header background color */
     color: white;
     /* Text color */
     padding: 10px;
     /* Add padding to the header */
     text-align: center;
-    /* Center-align text in the header */
+    background: linear-gradient(90deg, #1b3682, #1568ee);
+
 }
 #sidebar {
-    background-color: #007bff !important; /* Primary color */
+    background: linear-gradient(180deg, #223a7b 0%, #1568ee 100%) !important;
     color: white; /* Text color */
     height: 100vh;
     overflow-y: auto; /* Add scrollbars if content overflows */
@@ -38,6 +37,8 @@
     padding: 5px;
 }
 
+
+
 // .dashboard-container {
 //     display: flex;
 //     flex-direction: column;
@@ -45,9 +46,10 @@
 // }
 
 // .header {
-//     background: linear-gradient(180deg, #1d313e 0%, #0f4450 100%);
+//     background: linear-gradient(90deg, #1b3682, #1568ee);
 //     color: #fff;
 //     padding: 10px;
+//     font-size: 0.9rem;
 // }
 
 // .dashboard-body {
@@ -59,7 +61,7 @@
 // /* Sidebar */
 // #sidebar {
 //     width: 250px;
-//     background: linear-gradient(180deg, #1d313e 0%, #3c7a8a 100%) !important;
+//     background: linear-gradient(180deg, #223a7b 0%, #1568ee 100%) !important;
 //     color: #fff;
 //     padding-top: 20px;
 //     overflow-y: auto;

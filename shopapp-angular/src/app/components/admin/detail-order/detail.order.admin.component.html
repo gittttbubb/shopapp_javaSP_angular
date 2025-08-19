@@ -37,16 +37,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let order_detail of orderResponse.order_details; 
-        let i = index">
-        <td>{{ order_detail.product.name }}</td>
-        <td>
-          <p>{{order_detail.product.price}}</p>          
-        <td>
-          <p>{{order_detail.number_of_products}}</p>          
-        </td>
-        <!--<td>{{ order_detail.total_money }}</td>-->
-      </tr>
+      @for(order_detail of orderResponse.order_details; 
+        track order_detail.product.name) {
+          <tr>
+            <td>{{ order_detail.product.name }}</td>
+            <td>
+              <p>{{order_detail.product.price}}</p>      
+            <td>
+              <p>{{order_detail.number_of_products}}</p>          
+            </td>
+            <!--<td>{{ order_detail.total_money }}</td>-->
+          </tr>
+      }      
     </tbody>
   </table>  
   <button class="btn btn-primary col-md-2" 

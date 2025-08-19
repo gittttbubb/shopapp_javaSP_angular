@@ -35,35 +35,38 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <ng-container *ngIf="userResponse">
-                          <ng-container
-                            ngbPopover="Tài khoản của tôi,Đơn mua,Đăng xuất"
-                            popoverTitle="User Actions"
-                            triggers="click"
-                            [placement]="'bottom'"
-                          >
-                            <a
-                              class="nav-link"                              
-                              [ngbPopover]="popoverContent"
-                              (click)="togglePopover($event)"
+                        @if(userResponse) {
+                          <ng-container>
+                            <ng-container
+                              ngbPopover="Tài khoản của tôi,Đơn mua,Đăng xuất"
+                              popoverTitle="User Actions"
+                              triggers="click"
+                              [placement]="'bottom'"
                             >
-                              {{ userResponse.fullname }}
-                            </a>
-                            <ng-template #popoverContent>
-                              <div class="popover-list">
-                                <a class="popover-item" 
-                                    (click)="handleItemClick(0)">Tài khoản của tôi</a>
-                                <a class="popover-item" 
-                                    (click)="handleItemClick(1)">Đơn mua</a>
-                                <a class="popover-item" 
-                                    (click)="handleItemClick(2)">Đăng xuất</a>
-                              </div>
-                            </ng-template>
+                              <a
+                                class="nav-link"                              
+                                [ngbPopover]="popoverContent"
+                                (click)="togglePopover($event)"
+                              >
+                                {{ userResponse.fullname }}
+                              </a>
+                              <ng-template #popoverContent>
+                                <div class="popover-list">
+                                  <a class="popover-item" 
+                                      (click)="handleItemClick(0)">Tài khoản của tôi</a>
+                                  <a class="popover-item" 
+                                      (click)="handleItemClick(1)">Đơn mua</a>
+                                  <a class="popover-item" 
+                                      (click)="handleItemClick(2)">Đăng xuất</a>
+                                </div>
+                              </ng-template>
+                            </ng-container>
                           </ng-container>
-                        </ng-container>
-                        <ng-container *ngIf="!userResponse">
-                          <a class="nav-link" routerLink="/login">Đăng nhập</a>
-                        </ng-container>
+                        } @else {
+                          <ng-container>
+                            <a class="nav-link" routerLink="/login">Đăng nhập</a>
+                          </ng-container>
+                        }                                                
                       </li>                                                                
                 </ul>
             </div>

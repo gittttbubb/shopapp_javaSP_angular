@@ -1,4 +1,5 @@
-<div *ngIf="product">      
+@if(product) {
+<div>      
     <!-- Form cập nhật thông tin sản phẩm -->
     <div class="container">
       <div class="row">
@@ -23,25 +24,33 @@
       
             <div class="form-group mb-3">
               <label for="category">Category:</label>
-              <select id="category" [(ngModel)]="updatedProduct.category_id" name="category" class="form-control" required>
-                <!-- Hiển thị danh sách các category -->
-                <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              <select id="category" [(ngModel)]="updatedProduct.category_id" 
+              name="category" class="form-control" required>                
+                @for(category of categories; track category.id) {
+                  <option [value]="category.id">{{ category.name }}
+                  </option>
+                }                
               </select>
             </div>
             Copy
             <div class="row mb-3">
               <div class="thumbnail-container">
-                <div *ngFor="let productImage of product?.product_images; let i = index" 
-                    class="thumbnail-item" 
-                    [ngClass]="{'active': i === currentImageIndex}"
-                    (click)="thumbnailClick(i)">
-                  <img [src]="productImage.image_url" class="thumbnail-image" 
-                    alt="Thumbnail Image">
-                  <button type="button" class="btn btn-sm remove-image" 
-                    (click)="deleteImage(productImage)">
-                    <i class="fa fa-times-circle text-danger"></i>
-                  </button>
-                </div>
+                @for(productImage of product.product_images;
+                  track productImage.image_url; let i = $index) {
+                    <div 
+                      class="thumbnail-item" 
+                      [ngClass]="{'active': i === currentImageIndex}"
+                      (click)="thumbnailClick(i)">
+                    <img [src]="productImage.image_url" class="thumbnail-image" 
+                      alt="Thumbnail Image">
+                    <button type="button" class="btn btn-sm remove-image" 
+                      (click)="deleteImage(productImage)">
+                      <i class="fa fa-times-circle text-danger"></i>
+                    </button>
+                  </div>
+                } @empty {
+                  <h2>No images found</h2>
+                }               
               </div>
             </div>
             <div class="form-group mb-3">
@@ -55,3 +64,4 @@
       </div>
     </div>
   </div>
+}
